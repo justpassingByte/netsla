@@ -182,7 +182,7 @@ export default function NetslaLanding() {
                       <PlayCircle
                         className="h-24 w-24 text-purple-400 transition-transform duration-300 hover:scale-110"
                       />
-                    </div>
+                  </div>
                   )}
                 </div>
               </CardContent>
@@ -212,8 +212,8 @@ export default function NetslaLanding() {
                 ) : (
                   <ImageGallery images={demoImages} />
                 )}
-              </div>
-            </div>
+                  </div>
+                </div>
           </div>
         </div>
       </section>
@@ -703,32 +703,32 @@ export default function NetslaLanding() {
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="flex items-center space-x-4">
-                <div className="p-3 bg-purple-500/20 rounded-full">
-                  <Mail className="h-6 w-6 text-purple-400" />
-                </div>
-                <div>
-                  <h3 className="text-white font-semibold">📧 Email</h3>
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-purple-500/20 rounded-full">
+                    <Mail className="h-6 w-6 text-purple-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-semibold">📧 Email</h3>
                   <p className="text-gray-400">support@netsla.io.vn</p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex items-center space-x-4">
-                <div className="p-3 bg-blue-500/20 rounded-full">
-                  <Phone className="h-6 w-6 text-blue-400" />
-                </div>
-                <div>
-                  <h3 className="text-white font-semibold">☎️ Hotline</h3>
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-blue-500/20 rounded-full">
+                    <Phone className="h-6 w-6 text-blue-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-semibold">☎️ Hotline</h3>
                   <p className="text-gray-400">0397 521 603</p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex items-center space-x-4">
-                <div className="p-3 bg-green-500/20 rounded-full">
-                  <Globe className="h-6 w-6 text-green-400" />
-                </div>
-                <div>
-                  <h3 className="text-white font-semibold">🌐 Website</h3>
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-green-500/20 rounded-full">
+                    <Globe className="h-6 w-6 text-green-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-semibold">🌐 Website</h3>
                   <p className="text-gray-400">www.netsla.io.vn</p>
                 </div>
               </div>

@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -27,8 +29,47 @@ import {
   ImageIcon,
 } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
+
+import ImageGallery from "@/components/ui/ImageGallery"
+import { useState, useRef } from "react"
 
 export default function NetslaLanding() {
+  const demoImages = [
+    "/images/client2.png",
+    "/images/client1.png", // Replace with your actual image paths
+    "/images/client3.png",
+    "/images/client4.png",
+    "/images/client5.png",
+    "/images/client6.png",
+    "/images/client7.png",
+    "/images/client8.png",
+    "/images/client9.png",
+    "/images/client10.png",
+    "/images/server1.png",
+    "/images/server2.png",
+    "/images/server3.png",
+    "/images/server4.png",
+    "/images/server5.png",
+    "/images/server6.png",
+  ];
+
+  const [isHoveringVideo, setIsHoveringVideo] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [showFullGallery, setShowFullGallery] = useState(false);
+
+  const handlePlayVideo = () => {
+    if (videoRef.current) {
+      videoRef.current.play();
+      setIsVideoPlaying(true);
+    }
+  };
+
+  const handlePauseVideo = () => {
+    setIsVideoPlaying(false);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       {/* Navigation */}
@@ -86,9 +127,7 @@ export default function NetslaLanding() {
               Từ cuộc cách mạng điện của Nikola Tesla đến tương lai vận hành cyber café
             </p>
             <p className="text-lg text-gray-400 mb-8 max-w-3xl mx-auto">
-              Hơn 100 năm trước, Nikola Tesla đã thay đổi thế giới với dòng điện xoay chiều cách mạng. Lấy cảm hứng từ
-              tinh thần đổi mới đó, Netsla mang đến tự động hóa tiên tiến và trải nghiệm liền mạch cho việc quản lý
-              cyber café tại Việt Nam.
+            Hơn một thế kỷ trước, Nikola Tesla đã thay đổi thế giới mãi mãi với cuộc cách mạng điện xoay chiều, mở ra kỷ nguyên mới của công nghệ và tự động hóa. Lấy cảm hứng từ tinh thần đổi mới táo bạo ấy, Netsla không chỉ đơn thuần là một hệ thống quản lý cyber café—mà là bước tiến đột phá giúp chủ sở hữu tối ưu vận hành, nâng cao trải nghiệm khách hàng và mở ra tương lai của ngành giải trí điện tử tại Việt Nam.
             </p>
           </div>
         </div>
@@ -111,44 +150,70 @@ export default function NetslaLanding() {
                 <div className="flex items-center space-x-3">
                   <PlayCircle className="h-8 w-8 text-purple-400" />
                   <div>
-                    <CardTitle className="text-white">Video Demo - Giao diện quản lý</CardTitle>
+                    <CardTitle className="text-white">Video Demo</CardTitle>
                     <CardDescription className="text-gray-400">
-                      Xem cách quản lý cyber café dễ dàng với Netsla
+                      Xem cách Netsla hoạt động thực tế
                     </CardDescription>
                   </div>
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="aspect-video bg-gradient-to-br from-purple-600/20 to-blue-600/20 rounded-lg flex items-center justify-center border border-purple-500/30">
-                  <div className="text-center">
-                    <PlayCircle className="h-16 w-16 text-purple-400 mx-auto mb-4" />
-                    <p className="text-gray-300">Video Demo Giao diện</p>
-                    <p className="text-sm text-gray-500">Nhấn để xem demo trực tiếp</p>
-                  </div>
+                <div
+                  className="aspect-video bg-gradient-to-br from-purple-600/20 to-blue-600/20 rounded-lg flex items-center justify-center border border-purple-500/30 overflow-hidden relative"
+                  onMouseEnter={() => setIsHoveringVideo(true)}
+                  onMouseLeave={() => setIsHoveringVideo(false)}
+                >
+                  <video
+                    ref={videoRef}
+                    controls
+                    className="w-full h-full object-cover"
+                    onPlay={() => setIsVideoPlaying(true)}
+                    onPause={() => setIsVideoPlaying(false)}
+                    onEnded={() => setIsVideoPlaying(false)}
+                  >
+                    <source src="/demo/demo.mp4" type="video/mp4" />
+                    Trình duyệt của bạn không hỗ trợ thẻ video.
+                  </video>
+                  {!isVideoPlaying && (
+                    <div
+                      className="absolute inset-0 flex items-center justify-center bg-black/50 transition-opacity duration-300 group-hover:opacity-100 cursor-pointer"
+                      onClick={handlePlayVideo}
+                    >
+                      <PlayCircle
+                        className="h-24 w-24 text-purple-400 transition-transform duration-300 hover:scale-110"
+                      />
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-900/50 border-blue-500/20 overflow-hidden">
-              <CardHeader>
-                <div className="flex items-center space-x-3">
-                  <ImageIcon className="h-8 w-8 text-blue-400" />
-                  <div>
-                    <CardTitle className="text-white">Ảnh chụp màn hình thực tế</CardTitle>
-                    <CardDescription className="text-gray-400">Giao diện thực tế của hệ thống Netsla</CardDescription>
+            <div className="bg-slate-900/50 border-blue-500/20 rounded-lg overflow-hidden">
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-white mb-4">Ảnh chụp màn hình thực tế</h3>
+                <p className="text-gray-400 mb-6">Giao diện thực tế của hệ thống Netsla</p>
+                {!showFullGallery ? (
+                  <div
+                    className="relative aspect-video bg-gray-800 rounded-lg overflow-hidden cursor-pointer group"
+                    onClick={() => setShowFullGallery(true)}
+                  >
+                    <Image
+                      src={demoImages[0]}
+                      alt="Click to view more demo images"
+                      layout="fill"
+                      objectFit="cover"
+                      className="transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <ImageIcon className="h-16 w-16 text-white mb-2" />
+                      <span className="text-white text-lg font-semibold">Xem tất cả ({demoImages.length})</span>
+                    </div>
                   </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="aspect-video bg-gradient-to-br from-blue-600/20 to-green-600/20 rounded-lg flex items-center justify-center border border-blue-500/30">
-                  <div className="text-center">
-                    <ImageIcon className="h-16 w-16 text-blue-400 mx-auto mb-4" />
-                    <p className="text-gray-300">Screenshots Giao diện</p>
-                    <p className="text-sm text-gray-500">Xem giao diện thực tế của Netsla</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                ) : (
+                  <ImageGallery images={demoImages} />
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -498,12 +563,11 @@ export default function NetslaLanding() {
                     className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white w-full"
                     asChild
                   >
-                    <Link href="https://demo.netsla.vn" target="_blank">
+                    <Link href="https://cyber-mangagement.vercel.app/" target="_blank">
                       <Play className="mr-2 h-5 w-5" />
                       Thử Web Demo Ngay
                     </Link>
                   </Button>
-                  <p className="text-sm text-gray-400 mt-3">demo.netsla.vn</p>
                 </CardContent>
               </Card>
 
@@ -520,12 +584,11 @@ export default function NetslaLanding() {
                     className="border-blue-500 text-blue-300 hover:bg-blue-500/10 w-full"
                     asChild
                   >
-                    <Link href="https://netsla.vn/download" target="_blank">
+                    <Link href="https://github.com/justpassingByte/cyber2025-desktop/releases/tag/v1.0.1" target="_blank">
                       <Download className="mr-2 h-5 w-5" />
                       Tải ứng dụng Windows
                     </Link>
                   </Button>
-                  <p className="text-sm text-gray-400 mt-3">netsla.vn/download</p>
                 </CardContent>
               </Card>
             </div>
@@ -634,73 +697,41 @@ export default function NetslaLanding() {
       <section id="contact" className="py-20 bg-slate-900">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-16">
+            <div className="text-center mb-8">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Liên hệ với chúng tôi</h2>
               <p className="text-xl text-gray-400">Sẵn sàng hỗ trợ bạn bắt đầu hành trình với Netsla</p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-12">
-              <div className="space-y-8">
-                <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-purple-500/20 rounded-full">
-                    <Mail className="h-6 w-6 text-purple-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-white font-semibold">📧 Email</h3>
-                    <p className="text-gray-400">support@netsla.vn</p>
-                  </div>
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-purple-500/20 rounded-full">
+                  <Mail className="h-6 w-6 text-purple-400" />
                 </div>
-
-                <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-blue-500/20 rounded-full">
-                    <Phone className="h-6 w-6 text-blue-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-white font-semibold">☎️ Hotline</h3>
-                    <p className="text-gray-400">0123 456 789</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-green-500/20 rounded-full">
-                    <Globe className="h-6 w-6 text-green-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-white font-semibold">🌐 Website</h3>
-                    <p className="text-gray-400">www.netsla.vn</p>
-                  </div>
+                <div>
+                  <h3 className="text-white font-semibold">📧 Email</h3>
+                  <p className="text-gray-400">support@netsla.io.vn</p>
                 </div>
               </div>
 
-              <Card className="bg-slate-800/50 border-purple-500/20">
-                <CardHeader>
-                  <CardTitle className="text-white">Gửi tin nhắn</CardTitle>
-                  <CardDescription className="text-gray-400">Chúng tôi sẽ phản hồi trong vòng 24 giờ</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-sm text-gray-400 mb-2 block">Họ tên</label>
-                      <Input placeholder="Nhập họ tên" className="bg-slate-700/50 border-slate-600 text-white" />
-                    </div>
-                    <div>
-                      <label className="text-sm text-gray-400 mb-2 block">Email</label>
-                      <Input placeholder="Nhập email" className="bg-slate-700/50 border-slate-600 text-white" />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-sm text-gray-400 mb-2 block">Tin nhắn</label>
-                    <Textarea
-                      placeholder="Nhập tin nhắn của bạn..."
-                      className="bg-slate-700/50 border-slate-600 text-white min-h-[120px]"
-                    />
-                  </div>
-                  <Button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
-                    <ArrowRight className="mr-2 h-4 w-4" />
-                    Gửi tin nhắn
-                  </Button>
-                </CardContent>
-              </Card>
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-blue-500/20 rounded-full">
+                  <Phone className="h-6 w-6 text-blue-400" />
+                </div>
+                <div>
+                  <h3 className="text-white font-semibold">☎️ Hotline</h3>
+                  <p className="text-gray-400">0397 521 603</p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-green-500/20 rounded-full">
+                  <Globe className="h-6 w-6 text-green-400" />
+                </div>
+                <div>
+                  <h3 className="text-white font-semibold">🌐 Website</h3>
+                  <p className="text-gray-400">www.netsla.io.vn</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -715,7 +746,7 @@ export default function NetslaLanding() {
               <span className="text-2xl font-bold text-white">Netsla</span>
             </div>
             <div className="text-gray-400 text-center md:text-right">
-              <p>&copy; 2024 Netsla. Tất cả quyền được bảo lưu.</p>
+              <p>&copy; 2025 Netsla. Tất cả quyền được bảo lưu.</p>
               <p className="text-sm mt-1">Cách mạng quản lý cyber café thế hệ mới</p>
             </div>
           </div>
